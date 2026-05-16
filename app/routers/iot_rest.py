@@ -1,15 +1,12 @@
 from fastapi import APIRouter,status,Request
+from app.db.database import write_sensor_data
 router = APIRouter()
-
-db_for_real= []
-
-@router.get("/data",status_code=status.HTTP_200_OK)
-async def data_get(req: Request):
-    return {"status": "ok", "message":str(db_for_real)}
+#pyright: basic
 
 @router.post("/data", status_code=status.HTTP_200_OK)
 async def data_post(req: Request):
     body = await req.json()
-    print(body)
-    db_for_real.append(body)
+    print(f"Received POST data: {body}")
+    await write_sensor_data(body)
+    print("written to InfluxDB")
     return {"status": "ok"}
