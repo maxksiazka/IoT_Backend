@@ -1,5 +1,5 @@
 from fastapi import FastAPI, status
-from .routers import iot.rest as iot_rest
+from .routers import iot_rest
 
 app = FastAPI(title="Iot test")
 app.include_router(iot_rest.router,
